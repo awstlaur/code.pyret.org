@@ -304,7 +304,6 @@ $(function() {
         }
 
         function loadAndRenderSubmissions(e) {
-          console.log("loadAndRenderSubmissions");
           e.preventDefault();
           $("#cfg-container").hide();
 
