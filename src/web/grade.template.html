@@ -3,26 +3,8 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <title>code.pyret.org/grade</title>
-
   <link rel="stylesheet" href="/css/pure-min.css">
   <link rel="stylesheet" href="/css/grade.css">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <script src="/js/loader.js"></script>
-  <script src="/js/url.js"></script>
-  <script src="/js/q.js"></script>
-  <script src="/js/codemirror.js"></script>
-  <script src="/js/draw.js"></script>
-  <script src="/js/pyret-mode.js"></script>
-  <script src="/js/pyret-fold.js"></script>
-  <script src="/js/matchkw.js"></script>
-  <script src="/js/require.js"></script>
-  <script src="/js/s-expression-lib.js"></script>
-  <script src="/js/seedrandom.js"></script>
-  <script src="/js/share.js"></script>
-  <script src="/js/programs.js"></script>
-  <script src="/js/authenticate-storage.js"></script>
-  <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=handleGoogLoad"></script>
 </head>
 <body>
   <div class="pure-g">
@@ -86,6 +68,7 @@
     </div>
   </div>
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <script>
     function resetForm(e) {
       e.preventDefault();
@@ -130,22 +113,48 @@
     // $("#cfg").on("submit", saveForm);
     $("#reset").on("click", resetForm);
     $("#prf").on("submit", updateForm);
+  </script>
 
+  <script src="/js/loader.js"></script>
+  <script src="/js/url.js"></script>
+  <script src="/js/q.js"></script>
+  <script src="/js/codemirror.js"></script>
+  <script src="/js/draw.js"></script>
+  <script src="/js/pyret-mode.js"></script>
+  <script src="/js/pyret-fold.js"></script>
+  <script src="/js/matchkw.js"></script>
+  <script src="/js/require.js"></script>
+
+  <script>
     window.module = {};
   </script>
 
+  <script src="/js/s-expression-lib.js"></script>
   <script>
     var sexp_exports = window.module.exports;
     define("s-expression", [], function() {
       return sexp_exports;
     });
+  </script>
+
+  <script src="/js/seedrandom.js"></script>
+  <script>
     var seed_exports = window.module.exports;
     define("seedrandom", [], function() {
       return seed_exports;
     });
+  </script>
+
+  <script src="/js/share.js"></script>
+  <script>
     var shareAPI = makeShareAPI("{{{ CURRENT_PYRET_RELEASE }}}");
     var makeShareLink = shareAPI.makeShareLink;
     var makeHoverMenu = shareAPI.makeHoverMenu;
+  </script>
+
+  <script src="/js/programs.js"></script>
+  <script src="/js/authenticate-storage.js"></script>
+  <script>
     var clientId = "";
     var apiKey = "{{ GOOGLE_API_KEY }}";
     function handleGoogLoad() {
@@ -153,6 +162,7 @@
     }
   </script>
 
+  <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=handleGoogLoad"></script>
   <script id="loadVersion">
     // Figure out what version of Pyret we should be using, if not the current default
     var APP_BASE_URL = "{{{ BASE_URL }}}";
