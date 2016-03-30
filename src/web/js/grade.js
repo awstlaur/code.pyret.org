@@ -1,10 +1,8 @@
 $(function() {
+  debugger; // this one is called!
   // NOTE(joe): including repl-ui is some load-order BS to figure out
-  require(["/js/repl-ui.js", "/js/web-runner.js",
-  "/js/editor-find-module.js"], function(_, webRunner,
-  find) {
-
-
+  define("grade-main", ["/js/web-runner.js","/js/editor-find-module.js"], function(webRunner, find) {
+    debugger; // this one is not :/
     // TODO(all): Move createPCAPI to a require module.
     var storageAPIP = createProgramCollectionAPI(
       clientId, apiKey, "code.pyret.org", false);
@@ -305,6 +303,9 @@ $(function() {
 
         function loadAndRenderSubmissions(e) {
           e.preventDefault();
+
+          console.log("sdjfbasdif");
+
           $("#cfg-container").hide();
 
           var assignmentID = $("#id").val();
@@ -368,6 +369,8 @@ $(function() {
 
         $("#cfg").on("submit", loadAndRenderSubmissions);
 
+        console.log("hey there");
+
         $(document).on("mouseover", ".tooltip", function() {
           var title = $(this).attr("title");
           $(this).data("tipText", title).removeAttr("title");
@@ -386,4 +389,5 @@ $(function() {
 
       });
   });
+  require(["grade-main"]);
 });
