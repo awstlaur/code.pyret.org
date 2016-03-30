@@ -2,80 +2,29 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <link rel="stylesheet" href="/css/pure-min.css">
-  <style>
-  body {
-    box-sizing: border-box;
-    padding: 10px;
-  }
-
-  form {
-    padding: 0 5px;
-  }
-
-  .pure-u-1 {
-    display: block;
-  }
-
-  #tbl {
-    text-align: center;
-  }
-
-  table {
-    margin: 0 auto;
-    text-align: left;
-  }
-
-  th {
-    text-align: center;
-    white-space: nowrap;
-  }
-
-  th:not(:first-child) {
-    padding: 20px 0;
-  }
-
-  th:not(:first-child) div {
-    transform: rotate(-90deg)
-      translate(25px, 51px);
-    -webkit-transform: rotate(-90deg);
-  }
-
-  #tbl td, th {
-    cursor: pointer;
-  }
-
-  #tbl .name, #tbl .dis, #tbl .nohov {
-    cursor: default !important;
-  }
-
-  #tbl .def:hover {
-    background-color: #bebebe;
-  }
-
-  #frm {
-    display: none;
-  }
-
-  #frm textarea {
-    min-height: 400px;
-  }
-
-  .tt {
-    background-color: #161616;
-    border: 1px solid #333;
-    border-radius: 5px;
-    color: #fff;
-    display: none;
-    font-size: 12px;
-    padding: 3px;
-    position: absolute;
-  }
-  </style>
   <title>code.pyret.org/grade</title>
+
+  <link rel="stylesheet" href="/css/pure-min.css">
+  <link rel="stylesheet" href="/css/grade.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="/js/loader.js"></script>
+  <script src="/js/url.js"></script>
+  <script src="/js/q.js"></script>
+  <script src="/js/codemirror.js"></script>
+  <script src="/js/draw.js"></script>
+  <script src="/js/pyret-mode.js"></script>
+  <script src="/js/pyret-fold.js"></script>
+  <script src="/js/matchkw.js"></script>
+  <script src="/js/require.js"></script>
+  <script src="/js/s-expression-lib.js"></script>
+  <script src="/js/seedrandom.js"></script>
+  <script src="/js/share.js"></script>
+  <script src="/js/programs.js"></script>
+  <script src="/js/authenticate-storage.js"></script>
+  <script type="text/javascript" src="https://apis.google.com/js/client.js?onload=handleGoogLoad"></script>
 </head>
 <body>
-
   <div class="pure-g">
     <div id="cfg-container">
       <div class="pure-u-1-2">
@@ -120,6 +69,7 @@
         </form>
       </div>
     </div>
+
     <div class="pure-u-1">
       <table id="tbl" class="pure-table pure-table-bordered">
         <thead><tr></tr></thead>
@@ -136,146 +86,131 @@
     </div>
   </div>
 
-</table>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script>
-function resetForm(e) {
-  e.preventDefault();
-  localStorage.clear();
-  drawForm();
-  console.log("reset");
-}
-
-function saveForm(e) {
-  e.preventDefault();
-  if (!(localStorage.n > 0)) localStorage.n = 0;
-  localStorage.n++;
-  localStorage[localStorage.n] = $(this).serialize();
-  localStorage["t" + localStorage.n] = new Date;
-}
-
-function drawForm() {
-  if (localStorage.n > 0) {
-    $("#pr").html("<option selected disabled>Click to select</option>");
-    for (var i = localStorage.n; i > 0; i--) {
-      $("#pr").append(
-        "<option value=" + i + ">" + localStorage["t" + i] + "</option>");
+  <script>
+    function resetForm(e) {
+      e.preventDefault();
+      localStorage.clear();
+      drawForm();
     }
-  }
-  else {
-    $("#pr").html("<option selected disabled>No prior runs</option>");
-  }
-}
 
-function updateForm(e) {
-  e.preventDefault();
-  var s = localStorage[$("#pr").val()];
-  var form_data = s.split("&");
-  $.each(form_data, function(k, v) {
-    var data = v.split("=");
-    $("#" + data[0]).val(decodeURIComponent(data[1]));
-  });
-}
+    function saveForm(e) {
+      e.preventDefault();
+      if (!(localStorage.n > 0)){
+        localStorage.n = 0;
+      }
+      localStorage.n++;
+      localStorage[localStorage.n] = $(this).serialize();
+      localStorage["t" + localStorage.n] = new Date;
+    }
 
-drawForm();
-$("#cfg").on("submit", saveForm);
-$("#reset").on("click", resetForm);
-$("#prf").on("submit", updateForm);
+    function drawForm() {
+      if (localStorage.n > 0) {
+        $("#pr").html("<option selected disabled>Click to select</option>");
+        for (var i = localStorage.n; i > 0; i--) {
+          $("#pr").append(
+            "<option value=" + i + ">" + localStorage["t" + i] + "</option>");
+          }
+      }
+      else {
+        $("#pr").html("<option selected disabled>No prior runs</option>");
+      }
+    }
 
-</script>
-<script src="/js/loader.js"></script>
-<script src="/js/url.js"></script>
-<script src="/js/q.js"></script>
-<script src="/js/codemirror.js"></script>
-<script src="/js/matchbrackets.js"></script>
-<script src="/js/draw.js"></script>
-<script src="/js/pyret-mode.js"></script>
-<script src="/js/require.js"></script>
-<script>
-  window.module = {};
-</script>
-<script src="/js/s-expression-lib.js"></script>
-<script>
-var sexp_exports = window.module.exports;
-define("s-expression", [], function() {
-  return sexp_exports;
-});
-</script>
-<script src="/js/seedrandom.js"></script>
-<script>
-var seed_exports = window.module.exports;
-define("seedrandom", [], function() {
-  return seed_exports;
-});
-</script>
-<script src="/js/share.js"></script>
-<script>
-var shareAPI = makeShareAPI("{{{ CURRENT_PYRET_RELEASE }}}");
-var makeShareLink = shareAPI.makeShareLink;
-var makeHoverMenu = shareAPI.makeHoverMenu;
-</script>
-<script src="/js/programs.js"></script>
-<script src="/js/authenticate-storage.js"></script>
-<script>
-var clientId = "";
-var apiKey = "{{ GOOGLE_API_KEY }}";
-function handleGoogLoad() {
-  handleClientLoad(clientId, apiKey);
-}
-</script>
-<script type="text/javascript" src="https://apis.google.com/js/client.js?onload=handleGoogLoad"></script>
-<script id="loadVersion">
-// Figure out what version of Pyret we should be using, if not the current default
-var APP_BASE_URL = "{{{ BASE_URL }}}";
-var initialParams = url.parse(document.location.href);
-var params = url.parse("/?" + initialParams["hash"]);
-if(params.get && params.get["v"]) {
-  VERSION = params.get["v"];
-}
-else {
-  VERSION = "{{{ CURRENT_PYRET_RELEASE }}}";
-}
-if(VERSION !== "") { VERSION = VERSION + "/"; }
-var BASE = "{{{ PYRET_RELEASE_BASE }}}" + "/" + VERSION;
-function start() {
-  var start = document.createElement("script");
-  start.src = "/js/grade.js";
-  document.body.appendChild(start);
-}
-if({{{ USE_STANDALONE_PYRET }}}) {
-  var script = document.createElement("script");
-  script.src = BASE + "pyret.js"
-  document.body.insertBefore(script, document.getElementById("loadVersion"));
-  script.addEventListener("load", function() { start(); });
-  setTimeout(function() {
+    function updateForm(e) {
+      e.preventDefault();
+      var s = localStorage[$("#pr").val()];
+      var form_data = s.split("&");
+      $.each(form_data, function(k, v) {
+        var data = v.split("=");
+        $("#" + data[0]).val(decodeURIComponent(data[1]));
+      });
+    }
+
+    drawForm();
+    // $("#cfg").on("submit", saveForm);
+    $("#reset").on("click", resetForm);
+    $("#prf").on("submit", updateForm);
+
+    window.module = {};
+  </script>
+
+  <script>
+    var sexp_exports = window.module.exports;
+    define("s-expression", [], function() {
+      return sexp_exports;
+    });
+    var seed_exports = window.module.exports;
+    define("seedrandom", [], function() {
+      return seed_exports;
+    });
+    var shareAPI = makeShareAPI("{{{ CURRENT_PYRET_RELEASE }}}");
+    var makeShareLink = shareAPI.makeShareLink;
+    var makeHoverMenu = shareAPI.makeHoverMenu;
+    var clientId = "";
+    var apiKey = "{{ GOOGLE_API_KEY }}";
+    function handleGoogLoad() {
+      handleClientLoad(clientId, apiKey);
+    }
+  </script>
+
+  <script id="loadVersion">
+    // Figure out what version of Pyret we should be using, if not the current default
+    var APP_BASE_URL = "{{{ BASE_URL }}}";
+    var initialParams = url.parse(document.location.href);
+    var params = url.parse("/?" + initialParams["hash"]);
+    if(params.get && params.get["v"]) {
+      VERSION = params.get["v"];
+    }
+    else {
+      VERSION = "{{{ CURRENT_PYRET_RELEASE }}}";
+    }
+    if(VERSION !== "") {
+      VERSION = VERSION + "/";
+    }
+    var BASE = "{{{ PYRET_RELEASE_BASE }}}" + "/" + VERSION;
+
+    function start() {
+      var start = document.createElement("script");
+      start.src = "/js/grade.js";
+      document.body.appendChild(start);
+    }
+
+    {{#USE_STANDALONE_PYRET}}
+    /* use standalone pyret */
+    var script = document.createElement("script");
+    script.src = BASE + "pyret.js";
+    document.body.insertBefore(script, document.getElementById("loadVersion"));
+    script.addEventListener("load", function() { start(); });
+    setTimeout(function() {
+      requirejs.config({
+        paths: {
+          "q": "/js/q",
+          "s-expression": "/js/s-expression",
+          "fs": "/js/fsstub"
+        },
+        waitSeconds: 0
+      });
+    });
+    {{/USE_STANDALONE_PYRET}}
+    {{^USE_STANDALONE_PYRET}}
+    /* use phase1 pyret */
+    var phase1Base = BASE + "phase1/";
     requirejs.config({
       paths: {
+        "js": phase1Base + "js",
+        "compiler": phase1Base + "arr/compiler",
+        "arr": phase1Base + "arr",
+        "js/../../../lib/jglr": phase1Base + "../../lib/jglr",
+        "trove": phase1Base + "trove",
         "q": "/js/q",
         "s-expression": "/js/s-expression",
         "fs": "/js/fsstub"
       },
       waitSeconds: 0
     });
-  });
-} else {
-  var phase1Base = BASE + "phase1/";
-  requirejs.config({
-    paths: {
-      "js": phase1Base + "js",
-      "compiler": phase1Base + "arr/compiler",
-      "arr": phase1Base + "arr",
-      "js/../../../lib/jglr": phase1Base + "../../lib/jglr",
-      "trove": phase1Base + "trove",
-      "q": "/js/q",
-      "s-expression": "/js/s-expression",
-      "fs": "/js/fsstub"
-    },
-    waitSeconds: 0
-  });
-  start();
-}
+    start();
+    {{/USE_STANDALONE_PYRET}}
 
-</script>
+  </script>
 </body>
 </html>

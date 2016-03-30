@@ -1,3 +1,5 @@
+
+
 $(function() {
   // NOTE(joe): including repl-ui is some load-order BS to figure out
   require(["/js/repl-ui.js", "/js/web-runner.js",
@@ -102,7 +104,7 @@ $(function() {
           var runtime = runner.runtime;
           if (runner.runtime.isSuccessResult(result)) {
             if (runtime.ffi.isRight(result.result)) {
-              
+
               var checks = runtime.ffi.toArray(
                 runtime.getField(runtime.getField(result.result, "v")
                   .val.result.result, "checks"));
@@ -284,7 +286,7 @@ $(function() {
               return submission[i];
             }
           }
-          
+
           return null;
         }
 
@@ -304,6 +306,7 @@ $(function() {
         }
 
         function loadAndRenderSubmissions(e) {
+          console.log("loadAndRenderSubmissions");
           e.preventDefault();
           $("#cfg-container").hide();
 
