@@ -70,7 +70,7 @@ $(function() {
               var name = student.getName();
               return getFiles(student.getUniqueId()).then(function(dirs) {
                 return dirs.find(function(dir) {
-                  return dir.getName() == "submission";
+                  return dir.getName() == "final-submission";
                 });
               }).then(function(dir) {
                 /*
