@@ -424,7 +424,7 @@ function start(config, onServerReady) {
     res.redirect("/");
   });
 
-  app.get("/grade", function (req, res) {
+  app.get("/grade", function(req, res) {
     res.render("grade.html");
   });
 
